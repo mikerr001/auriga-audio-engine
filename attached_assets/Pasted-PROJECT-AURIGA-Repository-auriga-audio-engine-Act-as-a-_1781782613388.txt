@@ -1,0 +1,429 @@
+PROJECT AURIGA
+
+Repository: auriga-audio-engine
+
+Act as a Principal Accessibility Engineer, Human Factors Specialist, Cognitive Systems Researcher, Audio UX Architect, Assistive Technology Researcher, and Safety-Critical Systems Designer.
+
+You are building the Audio Engine for Project Auriga.
+
+MISSION
+
+The Audio Engine converts Auriga's understanding of the environment into spoken and non-spoken audio communication.
+
+The user must understand what matters most without becoming overwhelmed.
+
+The Audio Engine must communicate:
+
+* hazards
+* guidance
+* system status
+* confidence
+* uncertainty
+
+while minimizing cognitive load.
+
+The Audio Engine integrates with:
+
+* auriga-constitution
+* auriga-observatory
+* auriga-hazard-engine
+* auriga-guidance-engine
+* auriga-place-memory
+* auriga-world-model
+
+PRIMARY OBJECTIVES
+
+1. Speech Generation Framework
+
+Generate natural guidance messages.
+
+Examples:
+
+"Doorway ahead."
+
+"Obstacle slightly left."
+
+"Stairs down in two meters."
+
+"Possible obstacle ahead."
+
+Support:
+
+short mode
+
+normal mode
+
+verbose mode
+
+expert mode
+
+---
+
+2. Context-Aware Communication
+
+Adapt messaging based on:
+
+walking speed
+
+environment complexity
+
+hazard density
+
+confidence
+
+user preference
+
+Avoid excessive chatter.
+
+---
+
+3. Information Prioritization
+
+Determine what gets spoken.
+
+Example:
+
+critical drop-off
+
+must interrupt
+
+low-confidence landmark
+
+must wait
+
+Generate priority scores.
+
+Generate reasoning.
+
+---
+
+4. Speech Compression Engine
+
+Convert large environmental descriptions into concise instructions.
+
+Example:
+
+Instead of:
+
+Wall left.
+Chair ahead.
+Door right.
+
+Produce:
+
+Obstacle ahead. Door right.
+
+Optimize for safety and clarity.
+
+---
+
+5. Hazard Communication Framework
+
+Communicate:
+
+severity
+
+distance
+
+direction
+
+urgency
+
+confidence
+
+Support multiple communication styles.
+
+---
+
+6. Guidance Communication Framework
+
+Communicate:
+
+continue forward
+
+move left
+
+move right
+
+stop
+
+slow down
+
+reassess
+
+Support progressive urgency.
+
+---
+
+7. Uncertainty Communication
+
+Never hide uncertainty.
+
+Examples:
+
+"Possible obstacle ahead."
+
+"Uncertain doorway detected."
+
+"Low confidence object ahead."
+
+Generate confidence-aware language.
+
+---
+
+8. Audio Alert System
+
+Design a complete auditory vocabulary.
+
+Examples:
+
+confirmation tones
+
+warning tones
+
+critical tones
+
+navigation tones
+
+state change tones
+
+Every sound must have documented meaning.
+
+---
+
+9. Queue Management
+
+Manage:
+
+message queues
+
+interruptions
+
+deduplication
+
+expiration
+
+priority escalation
+
+Prevent message overload.
+
+---
+
+10. Interruptibility Framework
+
+Support:
+
+non-interruptible
+
+important
+
+urgent
+
+critical
+
+Examples:
+
+drop-off warning
+
+must interrupt
+
+place memory update
+
+must not interrupt
+
+---
+
+11. Adaptive Verbosity
+
+Support:
+
+novice users
+
+expert users
+
+research mode
+
+developer mode
+
+Generate configuration profiles.
+
+---
+
+12. Cognitive Load Management
+
+Measure:
+
+message frequency
+
+message density
+
+user burden
+
+information overload risk
+
+Reduce unnecessary speech.
+
+---
+
+13. Accessibility Optimization
+
+Support:
+
+blind users
+
+low-vision users
+
+new users
+
+experienced users
+
+future multilingual support
+
+future TTS engines
+
+---
+
+14. Audio Personality Framework
+
+Design configurable voice styles.
+
+Examples:
+
+Minimal
+
+Standard
+
+Detailed
+
+Research
+
+Developer
+
+Keep interfaces extensible.
+
+---
+
+15. Observatory Integration
+
+Log:
+
+spoken messages
+
+interruptions
+
+queue conflicts
+
+priority conflicts
+
+overload events
+
+communication failures
+
+Create Research Debt entries.
+
+---
+
+SELF-VALIDATION
+
+Test:
+
+crowded environments
+
+multiple hazards
+
+rapid guidance changes
+
+high uncertainty
+
+message overload
+
+conflicting priorities
+
+dynamic hazards
+
+Attempt to overwhelm the communication system.
+
+Document weaknesses.
+
+---
+
+HUMAN VALIDATION
+
+Generate procedures verifying:
+
+clarity
+
+understandability
+
+reaction speed
+
+cognitive load
+
+user trust
+
+information retention
+
+Generate simulation tools.
+
+Generate message replay systems.
+
+Generate audio testing suites.
+
+---
+
+OUTPUTS
+
+Generate:
+
+production code
+
+speech engine
+
+compression engine
+
+priority engine
+
+audio vocabulary
+
+queue manager
+
+evaluation framework
+
+validation framework
+
+documentation
+
+architecture diagrams
+
+research debt register
+
+human validation checklist
+
+architecture compliance report
+
+---
+
+CONSTITUTIONAL CONSTRAINTS
+
+Never overwhelm the user.
+
+Never hide uncertainty.
+
+Never suppress critical hazards.
+
+Never prioritize convenience over safety.
+
+Always expose confidence appropriately.
+
+Always integrate Observatory.
+
+Before declaring completion:
+
+1. Perform self-validation.
+2. Generate adversarial tests.
+3. Produce Research Debt entries.
+4. Produce human validation procedures.
+5. Document assumptions.
+6. Document failure modes.
+
+Only build the Audio Engine.

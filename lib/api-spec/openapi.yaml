@@ -1,22 +1,39 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Auriga Audio Engine API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: speech
+    description: Speech generation and compression
+  - name: priority
+    description: Message priority and queue management
+  - name: hazard
+    description: Hazard communication
+  - name: guidance
+    description: Guidance communication
+  - name: config
+    description: Audio engine configuration
+  - name: cognitive
+    description: Cognitive load management
+  - name: observatory
+    description: Logging and research debt
+  - name: vocabulary
+    description: Audio alert vocabulary
+  - name: simulation
+    description: Simulation and validation
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +41,356 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /audio/synthesize:
+    post:
+      operationId: synthesizeSpeech
+      tags: [speech]
+      summary: Generate a speech message from environmental input
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SynthesizeRequest"
+      responses:
+        "200":
+          description: Generated audio message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioMessage"
+
+  /audio/compress:
+    post:
+      operationId: compressSpeech
+      tags: [speech]
+      summary: Compress multiple environmental observations into concise speech
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompressRequest"
+      responses:
+        "200":
+          description: Compressed message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompressResult"
+
+  /audio/prioritize:
+    post:
+      operationId: prioritizeMessages
+      tags: [priority]
+      summary: Score and rank a set of candidate messages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrioritizeRequest"
+      responses:
+        "200":
+          description: Prioritized messages with scores and reasoning
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrioritizeResult"
+
+  /audio/queue:
+    get:
+      operationId: getQueue
+      tags: [priority]
+      summary: Get the current message queue
+      responses:
+        "200":
+          description: Current queue state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueueState"
+    post:
+      operationId: enqueueMessage
+      tags: [priority]
+      summary: Enqueue a new audio message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnqueueRequest"
+      responses:
+        "200":
+          description: Enqueued message with queue position
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnqueueResult"
+
+  /audio/queue/{messageId}:
+    delete:
+      operationId: dequeueMessage
+      tags: [priority]
+      summary: Remove a message from the queue
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResult"
+
+  /audio/queue/clear:
+    post:
+      operationId: clearQueue
+      tags: [priority]
+      summary: Clear all non-critical messages from the queue
+      responses:
+        "200":
+          description: Queue cleared
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResult"
+
+  /audio/hazard:
+    post:
+      operationId: generateHazardMessage
+      tags: [hazard]
+      summary: Generate a hazard communication message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HazardInput"
+      responses:
+        "200":
+          description: Generated hazard message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioMessage"
+
+  /audio/guidance:
+    post:
+      operationId: generateGuidanceMessage
+      tags: [guidance]
+      summary: Generate a navigation guidance message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GuidanceInput"
+      responses:
+        "200":
+          description: Generated guidance message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioMessage"
+
+  /audio/config:
+    get:
+      operationId: getAudioConfig
+      tags: [config]
+      summary: Get current audio engine configuration
+      responses:
+        "200":
+          description: Current configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioConfig"
+    put:
+      operationId: updateAudioConfig
+      tags: [config]
+      summary: Update audio engine configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AudioConfig"
+      responses:
+        "200":
+          description: Updated configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioConfig"
+
+  /audio/load:
+    get:
+      operationId: getCognitiveLoad
+      tags: [cognitive]
+      summary: Get current cognitive load metrics
+      responses:
+        "200":
+          description: Cognitive load metrics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CognitiveLoadMetrics"
+
+  /audio/load/reset:
+    post:
+      operationId: resetCognitiveLoad
+      tags: [cognitive]
+      summary: Reset cognitive load tracking
+      responses:
+        "200":
+          description: Reset successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OperationResult"
+
+  /audio/log:
+    get:
+      operationId: getObservatoryLog
+      tags: [observatory]
+      summary: Get the observatory communication log
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Log entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ObservatoryLog"
+
+  /audio/research-debt:
+    get:
+      operationId: getResearchDebt
+      tags: [observatory]
+      summary: Get all research debt entries
+      responses:
+        "200":
+          description: Research debt register
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResearchDebtRegister"
+    post:
+      operationId: addResearchDebt
+      tags: [observatory]
+      summary: Add a research debt entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResearchDebtEntry"
+      responses:
+        "200":
+          description: Added entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResearchDebtEntry"
+
+  /audio/vocabulary:
+    get:
+      operationId: getAudioVocabulary
+      tags: [vocabulary]
+      summary: Get the complete audio alert vocabulary
+      responses:
+        "200":
+          description: Audio vocabulary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AudioVocabulary"
+
+  /audio/alert:
+    post:
+      operationId: generateAlert
+      tags: [vocabulary]
+      summary: Generate an alert tone descriptor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AlertRequest"
+      responses:
+        "200":
+          description: Alert descriptor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertDescriptor"
+
+  /audio/scenarios:
+    get:
+      operationId: getSimulationScenarios
+      tags: [simulation]
+      summary: Get all built-in simulation scenarios
+      responses:
+        "200":
+          description: Available scenarios
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScenarioList"
+
+  /audio/simulate:
+    post:
+      operationId: runSimulation
+      tags: [simulation]
+      summary: Run a simulation scenario through the audio engine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SimulationRequest"
+      responses:
+        "200":
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationResult"
+
+  /audio/validate:
+    post:
+      operationId: runValidation
+      tags: [simulation]
+      summary: Run a human validation checklist procedure
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidationRequest"
+      responses:
+        "200":
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationResult"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +398,633 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    OperationResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required: [success, message]
+
+    VerbosityMode:
+      type: string
+      enum: [short, normal, verbose, expert]
+
+    PersonalityStyle:
+      type: string
+      enum: [minimal, standard, detailed, research, developer]
+
+    Interruptibility:
+      type: string
+      enum: [non-interruptible, important, urgent, critical]
+
+    MessageType:
+      type: string
+      enum: [hazard, guidance, status, confidence, alert, system]
+
+    HazardSeverity:
+      type: string
+      enum: [low, moderate, high, critical]
+
+    GuidanceDirection:
+      type: string
+      enum: [forward, left, right, stop, slow-down, reassess, back]
+
+    HazardType:
+      type: string
+      enum: [obstacle, drop-off, stairs-down, stairs-up, door, narrow-passage, surface-change, unknown]
+
+    AudioMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        type:
+          $ref: "#/components/schemas/MessageType"
+        priority:
+          type: number
+          description: Priority score 0-100
+        confidence:
+          type: number
+          description: Confidence 0-1
+        verbosityLevel:
+          $ref: "#/components/schemas/VerbosityMode"
+        interruptibility:
+          $ref: "#/components/schemas/Interruptibility"
+        reasoning:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties: true
+      required: [id, text, type, priority, confidence, verbosityLevel, interruptibility, reasoning, createdAt]
+
+    SynthesizeRequest:
+      type: object
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnvironmentObservation"
+        context:
+          $ref: "#/components/schemas/EnvironmentContext"
+      required: [observations]
+
+    EnvironmentObservation:
+      type: object
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        distance:
+          type: number
+          nullable: true
+          description: Distance in meters
+        direction:
+          type: string
+          nullable: true
+        confidence:
+          type: number
+          description: 0-1
+        severity:
+          $ref: "#/components/schemas/HazardSeverity"
+          nullable: true
+      required: [type, description, confidence]
+
+    EnvironmentContext:
+      type: object
+      properties:
+        walkingSpeed:
+          type: string
+          enum: [stationary, slow, normal, fast]
+        environmentComplexity:
+          type: string
+          enum: [simple, moderate, complex, chaotic]
+        hazardDensity:
+          type: string
+          enum: [none, low, moderate, high]
+        userPreference:
+          $ref: "#/components/schemas/VerbosityMode"
+      required: [walkingSpeed, environmentComplexity, hazardDensity]
+
+    CompressRequest:
+      type: object
+      properties:
+        observations:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnvironmentObservation"
+        maxWords:
+          type: integer
+          default: 10
+      required: [observations]
+
+    CompressResult:
+      type: object
+      properties:
+        original:
+          type: array
+          items:
+            type: string
+        compressed:
+          type: string
+        wordCount:
+          type: integer
+        compressionRatio:
+          type: number
+        safetyPreserved:
+          type: boolean
+        droppedItems:
+          type: array
+          items:
+            type: string
+      required: [original, compressed, wordCount, compressionRatio, safetyPreserved, droppedItems]
+
+    PrioritizeRequest:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/CandidateMessage"
+        context:
+          $ref: "#/components/schemas/EnvironmentContext"
+      required: [messages]
+
+    CandidateMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        text:
+          type: string
+        type:
+          $ref: "#/components/schemas/MessageType"
+        confidence:
+          type: number
+        severity:
+          $ref: "#/components/schemas/HazardSeverity"
+          nullable: true
+      required: [id, text, type, confidence]
+
+    PrioritizeResult:
+      type: object
+      properties:
+        ranked:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScoredMessage"
+        suppressed:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScoredMessage"
+        cognitiveLoadImpact:
+          type: string
+          enum: [minimal, moderate, high, critical]
+      required: [ranked, suppressed, cognitiveLoadImpact]
+
+    ScoredMessage:
+      type: object
+      properties:
+        message:
+          $ref: "#/components/schemas/CandidateMessage"
+        score:
+          type: number
+        reasoning:
+          type: string
+        willInterrupt:
+          type: boolean
+        interruptibility:
+          $ref: "#/components/schemas/Interruptibility"
+      required: [message, score, reasoning, willInterrupt, interruptibility]
+
+    QueueState:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/AudioMessage"
+        totalCount:
+          type: integer
+        criticalCount:
+          type: integer
+        overloadRisk:
+          type: boolean
+        estimatedDuration:
+          type: number
+          description: Estimated total speech duration in seconds
+      required: [messages, totalCount, criticalCount, overloadRisk, estimatedDuration]
+
+    EnqueueRequest:
+      type: object
+      properties:
+        text:
+          type: string
+        type:
+          $ref: "#/components/schemas/MessageType"
+        confidence:
+          type: number
+        severity:
+          $ref: "#/components/schemas/HazardSeverity"
+          nullable: true
+        interruptibility:
+          $ref: "#/components/schemas/Interruptibility"
+        ttlSeconds:
+          type: integer
+          nullable: true
+          description: Time-to-live in seconds; null means no expiry
+      required: [text, type, confidence, interruptibility]
+
+    EnqueueResult:
+      type: object
+      properties:
+        message:
+          $ref: "#/components/schemas/AudioMessage"
+        queuePosition:
+          type: integer
+        deduplicated:
+          type: boolean
+        preempted:
+          type: array
+          items:
+            type: string
+          description: IDs of messages preempted by this one
+      required: [message, queuePosition, deduplicated, preempted]
+
+    HazardInput:
+      type: object
+      properties:
+        hazardType:
+          $ref: "#/components/schemas/HazardType"
+        severity:
+          $ref: "#/components/schemas/HazardSeverity"
+        distance:
+          type: number
+          description: Distance in meters
+        direction:
+          type: string
+          enum: [ahead, left, right, slightly-left, slightly-right, behind]
+        confidence:
+          type: number
+          description: 0-1
+        urgency:
+          type: string
+          enum: [low, moderate, high, immediate]
+      required: [hazardType, severity, distance, direction, confidence, urgency]
+
+    GuidanceInput:
+      type: object
+      properties:
+        direction:
+          $ref: "#/components/schemas/GuidanceDirection"
+        urgency:
+          type: string
+          enum: [low, moderate, high, immediate]
+        context:
+          type: string
+          nullable: true
+          description: Additional context about the guidance
+        distanceMeters:
+          type: number
+          nullable: true
+      required: [direction, urgency]
+
+    AudioConfig:
+      type: object
+      properties:
+        verbosityMode:
+          $ref: "#/components/schemas/VerbosityMode"
+        personalityStyle:
+          $ref: "#/components/schemas/PersonalityStyle"
+        speechRate:
+          type: number
+          description: Multiplier 0.5-2.0
+        confidenceThreshold:
+          type: number
+          description: Min confidence 0-1 to speak a message
+        maxMessagesPerMinute:
+          type: integer
+        enabled:
+          type: boolean
+        suppressLowConfidence:
+          type: boolean
+      required: [verbosityMode, personalityStyle, speechRate, confidenceThreshold, maxMessagesPerMinute, enabled, suppressLowConfidence]
+
+    CognitiveLoadMetrics:
+      type: object
+      properties:
+        messageFrequency:
+          type: number
+          description: Messages per minute in the last window
+        messageDensity:
+          type: number
+          description: Information units per minute
+        overloadRisk:
+          type: string
+          enum: [none, low, moderate, high, critical]
+        recentMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/AudioMessage"
+        userBurden:
+          type: number
+          description: Estimated cognitive burden 0-1
+        suppressedCount:
+          type: integer
+          description: Messages suppressed in the last window due to load
+        windowSeconds:
+          type: integer
+      required: [messageFrequency, messageDensity, overloadRisk, recentMessages, userBurden, suppressedCount, windowSeconds]
+
+    ObservatoryLog:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/LogEntry"
+        totalCount:
+          type: integer
+      required: [entries, totalCount]
+
+    LogEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum: [spoken, interrupted, queued, suppressed, priority-conflict, overload, queue-conflict, system, failure]
+        message:
+          type: string
+        priority:
+          type: number
+          nullable: true
+        confidence:
+          type: number
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties: true
+      required: [id, timestamp, type, message]
+
+    ResearchDebtRegister:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResearchDebtEntry"
+        totalCount:
+          type: integer
+        criticalCount:
+          type: integer
+      required: [entries, totalCount, criticalCount]
+
+    ResearchDebtEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+          enum: [speech-model, priority-model, cognitive-load, hazard-detection, user-study, tts-integration, multilingual, failure-mode]
+        title:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        impact:
+          type: string
+        assumptions:
+          type: array
+          items:
+            type: string
+        failureModes:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, category, title, description, severity, impact, assumptions, failureModes, createdAt]
+
+    AudioVocabulary:
+      type: object
+      properties:
+        alerts:
+          type: array
+          items:
+            $ref: "#/components/schemas/AlertDescriptor"
+        version:
+          type: string
+      required: [alerts, version]
+
+    AlertDescriptor:
+      type: object
+      properties:
+        id:
+          type: string
+        alertType:
+          type: string
+          enum: [confirmation, warning, critical, navigation, state-change, error]
+        name:
+          type: string
+        meaning:
+          type: string
+        usage:
+          type: string
+        frequency:
+          type: number
+          nullable: true
+          description: Hz
+        duration:
+          type: number
+          nullable: true
+          description: ms
+        pattern:
+          type: string
+          nullable: true
+          description: e.g. "single", "double", "triple", "ascending", "descending"
+        priority:
+          type: integer
+      required: [id, alertType, name, meaning, usage, priority]
+
+    AlertRequest:
+      type: object
+      properties:
+        alertType:
+          type: string
+          enum: [confirmation, warning, critical, navigation, state-change, error]
+        context:
+          type: string
+          nullable: true
+      required: [alertType]
+
+    ScenarioList:
+      type: object
+      properties:
+        scenarios:
+          type: array
+          items:
+            $ref: "#/components/schemas/SimulationScenario"
+      required: [scenarios]
+
+    SimulationScenario:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+          enum: [crowded, hazard-dense, rapid-guidance, high-uncertainty, overload, conflicting-priorities, dynamic-hazard, normal]
+        eventCount:
+          type: integer
+        expectedMessages:
+          type: integer
+        adversarial:
+          type: boolean
+      required: [id, name, description, category, eventCount, expectedMessages, adversarial]
+
+    SimulationRequest:
+      type: object
+      properties:
+        scenarioId:
+          type: string
+          nullable: true
+        customEvents:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/SimulationEvent"
+        configOverride:
+          $ref: "#/components/schemas/AudioConfig"
+          nullable: true
+      required: []
+
+    SimulationEvent:
+      type: object
+      properties:
+        timeOffsetMs:
+          type: integer
+        type:
+          $ref: "#/components/schemas/MessageType"
+        payload:
+          type: object
+          additionalProperties: true
+      required: [timeOffsetMs, type, payload]
+
+    SimulationResult:
+      type: object
+      properties:
+        scenarioId:
+          type: string
+          nullable: true
+        scenarioName:
+          type: string
+        totalEvents:
+          type: integer
+        messagesSpoken:
+          type: integer
+        messagesSuppressed:
+          type: integer
+        messagesInterrupted:
+          type: integer
+        cognitiveLoadPeak:
+          type: string
+          enum: [none, low, moderate, high, critical]
+        priorityConflicts:
+          type: integer
+        overloadEvents:
+          type: integer
+        safetyViolations:
+          type: integer
+        outputMessages:
+          type: array
+          items:
+            $ref: "#/components/schemas/AudioMessage"
+        researchDebt:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResearchDebtEntry"
+        weaknesses:
+          type: array
+          items:
+            type: string
+        assumptions:
+          type: array
+          items:
+            type: string
+        duration:
+          type: number
+          description: Simulation duration in ms
+      required: [scenarioName, totalEvents, messagesSpoken, messagesSuppressed, messagesInterrupted, cognitiveLoadPeak, priorityConflicts, overloadEvents, safetyViolations, outputMessages, researchDebt, weaknesses, assumptions, duration]
+
+    ValidationRequest:
+      type: object
+      properties:
+        procedure:
+          type: string
+          enum: [clarity, understandability, reaction-speed, cognitive-load, user-trust, information-retention]
+        messageIds:
+          type: array
+          items:
+            type: string
+      required: [procedure]
+
+    ValidationResult:
+      type: object
+      properties:
+        procedure:
+          type: string
+        checklist:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationCheckItem"
+        simulationTools:
+          type: array
+          items:
+            type: string
+        replaySystem:
+          type: string
+        notes:
+          type: string
+      required: [procedure, checklist, simulationTools, replaySystem, notes]
+
+    ValidationCheckItem:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        method:
+          type: string
+        acceptanceCriteria:
+          type: string
+        priority:
+          type: string
+          enum: [required, recommended, optional]
+      required: [id, description, method, acceptanceCriteria, priority]
