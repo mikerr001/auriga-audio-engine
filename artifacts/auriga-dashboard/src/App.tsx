@@ -15,6 +15,7 @@ import Simulate from "@/pages/simulate";
 import Observatory from "@/pages/observatory";
 import ResearchDebt from "@/pages/research-debt";
 import Config from "@/pages/config";
+import Validate from "@/pages/validate";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -24,17 +25,18 @@ function Router() {
     <Layout>
       <Switch>
         <Route path="/" component={Dashboard} />
-        <Route path="/synthesize" component={Synthesize} />
+        <Route path="/speech" component={Synthesize} />
         <Route path="/hazard" component={Hazard} />
         <Route path="/guidance" component={Guidance} />
         <Route path="/compress" component={Compress} />
-        <Route path="/priority" component={Priority} />
+        <Route path="/prioritize" component={Priority} />
         <Route path="/queue" component={Queue} />
         <Route path="/vocabulary" component={Vocabulary} />
         <Route path="/simulate" component={Simulate} />
         <Route path="/observatory" component={Observatory} />
         <Route path="/research-debt" component={ResearchDebt} />
         <Route path="/config" component={Config} />
+        <Route path="/validate" component={Validate} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
